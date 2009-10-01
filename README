@@ -1,0 +1,13 @@
+A startup item script to automatically start up MongoDB on system bootup
+for Mac OS X.
+
+The script assumes that MongoDB is installed in /usr/local/mongodb
+and that the dbpath /var/db/mongodb exists.
+
+Author: René Sprotte (@renspr on Twitter)
+
+Installation
+============
+
+1.) Copy the folder mongodb to /Library/StartupItems
+2.) Restart your Mac

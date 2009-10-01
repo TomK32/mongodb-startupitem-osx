@@ -1,0 +1,47 @@
+#!/bin/sh
+#
+# /Library/StartupItems/mongodb/mongodb
+#
+# A script to automatically start up MongoDB on system bootup
+# for Mac OS X.
+#
+# The script assumes that MongoDB is installed in /usr/local/mongodb
+# and that the dbpath /var/db/mongodb exists.
+#
+# author: René Sprotte (@renspr on Twitter)
+#
+
+# Source the common setup functions for startup scripts
+test -r /etc/rc.common || exit 1
+. /etc/rc.common
+
+MONGOD="/usr/local/mongodb/bin/mongod"
+DBPATH="/var/db/mongodb"
+
+StartService ()
+{
+  ConsoleMessage "Starting MongoDB database server"
+  $MONGOD --dbpath $DBPATH
+}
+
+StopService ()
+{
+  ConsoleMessage "Stopping MongoDB database server"
+  pid=`ps -o pid,command -ax | grep mongod | awk '!/awk/ && !/grep/ {print $1}'`;
+  if [ "${pid}" != "" ]; then
+    kill -2 ${pid};
+  fi
+}
+
+RestartService ()
+{
+  ConsoleMessage "Restarting MongoDB database server"
+  StopService
+  StartService
+}
+
+if test -x $MONGOD ; then
+  RunService "$1"
+else
+  ConsoleMessage "Could not find /usr/local/mongodb/bin/mongod"
+fi
