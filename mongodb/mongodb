@@ -43,5 +43,5 @@ RestartService ()
 if test -x $MONGOD ; then
   RunService "$1"
 else
-  ConsoleMessage "Could not find /usr/local/mongodb/bin/mongod"
+  ConsoleMessage "Could not find $MONGOD"
 fi
